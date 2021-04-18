@@ -61,7 +61,6 @@
                 #if _HIGHLIGHTENABLED_ON
                     c = _HighLightColor;
                 #else
-                    
                     //LightingLambert
                     Light mainLight = GetMainLight();
                     half3 attenuatedLightColor = mainLight.color * (mainLight.distanceAttenuation * mainLight.shadowAttenuation);

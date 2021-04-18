@@ -89,7 +89,6 @@
                 half3 N = normalize(i.normalWS);
                 half3 V = normalize(i.viewDir);
 
-                // half3 emission = SampleEmission(uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
                 half4 specular = SampleSpecularSmoothness(uv, _SpecColor);
                 half smoothness = specular.a;
 

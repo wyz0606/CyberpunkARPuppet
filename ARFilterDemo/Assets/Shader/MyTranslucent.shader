@@ -77,7 +77,7 @@
                 return o;
             }
 
-            //透射
+            //Translucent
             half3 Translucent(float3 lightDir, half3 viewDir, half3 color, float3 normalWS, half thickness)
             {
                 half3 V = viewDir;

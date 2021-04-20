@@ -8,7 +8,7 @@
 
         [Header(Emission)]
         [HideInInspector]_EmissionTex("EmissionTex", 2D) = "white"{}
-        _EmissionColor("Color", Color) = (1,1,1,1)
+        _EmissionColor("Emission Color", Color) = (1,1,1,1)
         _Emission("Intensity(X) Frequency(Y) Speed(Z) Distance(W)", vector) = (1,1,1,1)
 
     }
@@ -129,6 +129,31 @@
                 half4 c = half4(finalColor,1);
                 return c;
             }
+            ENDHLSL
+        }
+
+        // This pass it not used during regular rendering, only for lightmap baking.
+        Pass
+        {
+            Name "Meta"
+            Tags{ "LightMode" = "Meta" }
+
+            Cull Off
+
+            HLSLPROGRAM
+            // Required to compile gles 2.0 with standard srp library
+            #pragma prefer_hlslcc gles
+            #pragma exclude_renderers d3d11_9x
+
+            #pragma vertex UniversalVertexMeta
+            #pragma fragment UniversalFragmentMetaSimple
+
+            #pragma shader_feature _EMISSION
+            #pragma shader_feature _SPECGLOSSMAP
+
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/SimpleLitMetaPass.hlsl"
+
             ENDHLSL
         }
     }

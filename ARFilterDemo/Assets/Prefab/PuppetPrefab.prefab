@@ -116,7 +116,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -5.529964e-10, y: 0.007955147, z: -2.9103952e-11}
+  m_ConnectedAnchor: {x: 3.7836598e-10, y: 0.007955147, z: -2.9103952e-11}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -445,7 +445,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000000021287372, y: 0.013667344, z: -0.00001130905}
+  m_ConnectedAnchor: {x: -0.0000000021444024, y: 0.013667344, z: -0.00001130905}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2436,6 +2436,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b6c73d1dad10c4a019d3a9c87e290beb, type: 2}
+    - target: {fileID: -5131445308505392996, guid: bdb93a82d87ee48ca85d10287a9b7006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 00caf5df165fd46aca50396693d43d16, type: 2}
     - target: {fileID: -3722405182657794361, guid: bdb93a82d87ee48ca85d10287a9b7006,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2454,7 +2459,7 @@ PrefabInstance:
     - target: {fileID: -891658111615932199, guid: bdb93a82d87ee48ca85d10287a9b7006,
         type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -516098083770646512, guid: bdb93a82d87ee48ca85d10287a9b7006,
         type: 3}

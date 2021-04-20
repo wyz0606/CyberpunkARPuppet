@@ -7,7 +7,7 @@
         _BaseMap("BaseMap", 2D) = "white" {}
 
         [Header(Specular)]
-        [NoScaleOffset]_SpecularTex("SpecularTex", 2D) = "white"{}
+        [NoScaleOffset]_SpecularTex("SpecularTex", 2D) = "black"{}
         _SpecularIntensity("Specular",float) = 1
         _Shineness("Shineness",float) = 1
 
@@ -50,6 +50,7 @@
                 float3 normalWS         : TEXCOORD2;
                 float3 viewWS           : TEXCOORD3;
                 float3 positionWS       : TEXCOORD4;
+                half3 vertexSH          : TEXCOORD5;
             };
 
             CBUFFER_START(UnityPerMaterial)
@@ -58,6 +59,7 @@
             half _SpecularIntensity, _Shineness;
             half4 _Translucent;
             CBUFFER_END
+
             TEXTURE2D (_BaseMap);SAMPLER(sampler_BaseMap);
             TEXTURE2D (_SpecularTex);SAMPLER(sampler_SpecularTex);
 
@@ -71,6 +73,7 @@
                 o.uv = TRANSFORM_TEX(v.uv, _BaseMap);
                 o.normalWS = TransformObjectToWorldNormal(v.normalOS);
                 o.fogCoord = ComputeFogFactor(o.positionCS.z);
+                o.vertexSH = SampleSHVertex(o.normalWS);
 
                 return o;
             }
@@ -89,35 +92,50 @@
                 return I;
             }
 
+            // Specular = Ks * pow(max(0,dot(N,H)), Shininess)
+            half3 MyLightingSpecular(half3 lightColor, half3 lightDirection, half3 normalWS, half3 viewDir, half specularMask)
+            {
+                half3 L = lightDirection;
+                half3 N = normalWS;
+                half3 V = viewDir;
+                half3 H = normalize(L + V);
+                half NdotH = max(0,dot(N,H));
+                half3 specular = _SpecularIntensity * pow(NdotH,_Shineness) * specularMask;
+                specular *= lightColor;
+
+                return specular;
+            }
+
             half4 frag(Varyings i) : SV_Target
             {
                 half4 c;
                 half4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, i.uv);
                 c = baseMap * _BaseColor;
 
+                //Data Preparation
                 half transThickness = _Translucent.x;
                 half transNormalDistortion = _Translucent.y;
                 half transAttenuation = _Translucent.z;
                 half transStrength = _Translucent.w;
 
-                //Light and Specular
-                // Specular = Ks * pow(max(0,dot(N,H)), Shininess)
                 float3 N = normalize(i.normalWS);
-                Light light = GetMainLight();
-                float3 L = light.direction;
                 float3 V = i.viewWS;
-                float3 H = normalize(L + V);
-                half NdotH = max(0,dot(N,H));
+
+                //MainLight Diffuse: direct light + lightprobe
+                Light light = GetMainLight();
+                half3 diffuse = LightingLambert(light.color, light.direction, N);
+
+                //LightProbe diffuse
+                half3 lightProbe = SampleSHPixel(i.vertexSH, N);
+                diffuse += lightProbe;
+                
+                //MainLight Specular
                 half4 specularMap = SAMPLE_TEXTURE2D(_SpecularTex, sampler_SpecularTex, i.uv);
-                half specular = _SpecularIntensity * pow(NdotH,_Shineness) * specularMap.r;
-                half diffuse = max(0,dot(N,L));
-                c *= diffuse;
-                c += specular;
-
-                half thickness = 1 - transThickness;
-
+                half3 specular = MyLightingSpecular(light.color, light.direction, N, V, specularMap.r);
+                
                 //Translucent
-                c.rgb += Translucent(light, i.viewWS, N, transNormalDistortion, thickness, transAttenuation, transStrength);
+                half thickness = 1 - transThickness;
+                half3 translucent = Translucent(light, V, N, transNormalDistortion, thickness, transAttenuation, transStrength);
 
                 //AdditionalLights
                 #ifdef _ADDITIONAL_LIGHTS
@@ -126,15 +144,27 @@
                     {
                         Light addLight = GetAdditionalLight(lightIndex, i.positionWS);
                         half3 attenuatedLightColor = addLight.color * (addLight.distanceAttenuation * addLight.shadowAttenuation);
-                        // c.rgb += LightingLambert(attenuatedLightColor, addLight.direction, N);
-                        c.rgb += Translucent(addLight, i.viewWS, N, transNormalDistortion, thickness, transAttenuation, transStrength) * attenuatedLightColor;
+
+                        diffuse += LightingLambert(attenuatedLightColor, addLight.direction, N);
+                        specular += MyLightingSpecular(attenuatedLightColor, addLight.direction, N, V, specularMap.r);
+
+                        translucent += Translucent(addLight, V, N, transNormalDistortion, thickness, transAttenuation, transStrength) * attenuatedLightColor;
                     }
                 #endif
+
+                translucent *= 1-specularMap.r;
+
+                c.rgb *= diffuse;
+                c.rgb += translucent;
+                c.rgb += specular;
+                // return c;
 
                 c.rgb = MixFog(c.rgb, i.fogCoord);
                 return c;
             }
             ENDHLSL
         }
+
+        
     }
 }

@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularTex:
-        m_Texture: {fileID: 2800000, guid: ffc012c98cd184d7fb2ad91e4e4212fd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 37862dfcd4e094633b909619abcb5393, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ThicknessMap:
@@ -95,12 +95,12 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ShadowValue: 0.65
-    - _Shineness: 57.79
+    - _Shineness: 232.05
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _Specular: 0.8
     - _SpecularHighlights: 1
-    - _SpecularIntensity: 0.98
+    - _SpecularIntensity: 1.7
     - _SrcBlend: 1
     - _Step: 2
     - _Strength: 3.44
@@ -115,4 +115,4 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Translucent: {r: 0.907, g: 0.782, b: 1.95, a: 3.44}
+    - _Translucent: {r: 0.8, g: 0.56, b: 1.98, a: 4.68}

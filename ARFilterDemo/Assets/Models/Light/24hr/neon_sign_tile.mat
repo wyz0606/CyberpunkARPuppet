@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: neon_sign_tile
   m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
-  m_ShaderKeywords: _EMISSION _SPECULAR_COLOR
+  m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -69,7 +69,7 @@ Material:
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
-    - _SpecularHighlights: 0
+    - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
     - _UseAoMap: 1
@@ -81,10 +81,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.53333336, b: 0.87562424, a: 1}
+    - _BaseColor: {r: 0.9150943, g: 0.48776254, b: 0.5480916, a: 1}
     - _Color: {r: 0.41037738, g: 0.6704666, b: 1, a: 1}
-    - _EmissionColor: {r: 4.48385, g: 0.28170788, b: 0.76911503, a: 2}
-    - _SpecColor: {r: 0.19997817, g: 0.19997817, b: 0.19997817, a: 0.5}
+    - _EmissionColor: {r: 0.85882354, g: 0.050980393, b: 0.14901961, a: 2}
+    - _SpecColor: {r: 0.19997373, g: 0.19997373, b: 0.19997373, a: 0.5}
     - _UvOffset: {r: 0, g: 0, b: 0, a: 0}
     - _UvTiling: {r: 1, g: 1, b: 0, a: 0}
 --- !u!114 &6905319978353736509
